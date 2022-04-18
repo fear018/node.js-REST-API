@@ -1,14 +1,23 @@
+const url = require("url");
 const { v4: uuid } = require("uuid");
-const { getNotFoundResponse } = require("../services/errorsHandler");
+const { getNotFoundResponse } = require("../utils/errorsHandler");
 const userModel = require("../models/user");
 const catModel = require("../models/cat");
-const { parseJsonBody } = require("../services/jsonHelpers");
-const { createCache } = require("../services/cache");
+const { parseJsonBody } = require("../utils/jsonHelpers");
+const { createCache } = require("../utils/cache");
 
 const cache = createCache();
 
-exports.getUsers = async (res) => {
-  const { users } = await userModel.fetchAllUsers();
+exports.getUsers = async (req, res) => {
+  let users;
+  const { pageNumber, pageSize } = url.parse(req.url, true).query;
+
+  if (pageNumber && pageSize) {
+    users = await userModel.fetchAllUsers(pageNumber, pageSize);
+  } else {
+    const data = await userModel.fetchAllUsers();
+    users = data.users;
+  }
 
   if (!users.length) {
     return getNotFoundResponse(res);
@@ -68,4 +77,15 @@ exports.deleteUserById = async (res, userId) => {
   }
 
   return { id: userId };
+};
+
+exports.deleteUsersById = async (req, res) => {
+  const { ids } = await parseJsonBody(req);
+  const result = await userModel.deleteUsers(ids);
+
+  if (!result) {
+    return getNotFoundResponse(res);
+  }
+
+  return { ids };
 };

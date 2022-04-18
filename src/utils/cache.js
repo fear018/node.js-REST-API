@@ -3,7 +3,6 @@ exports.createCache = () => {
 
   setInterval(() => {
     cache = {};
-    console.log("Cache clear!");
   }, 60000);
 
   return async (key, cb, res) => {

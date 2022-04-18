@@ -1,5 +1,5 @@
 const path = require("path");
-const { readJSONAsync, writeJSONAsync } = require("../services/jsonHelpers");
+const { readJSONAsync, writeJSONAsync } = require("../utils/jsonHelpers");
 
 const dbJsonPath = path.resolve(process.cwd(), "src/services/db_cats.json");
 

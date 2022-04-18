@@ -1,9 +1,9 @@
 const { v4: uuid } = require("uuid");
-const { getNotFoundResponse } = require("../services/errorsHandler");
+const { getNotFoundResponse } = require("../utils/errorsHandler");
 const catModel = require("../models/cat");
 const userModel = require("../models/user");
-const { parseJsonBody } = require("../services/jsonHelpers");
-const { createCache } = require("../services/cache");
+const { parseJsonBody } = require("../utils/jsonHelpers");
+const { createCache } = require("../utils/cache");
 
 const cache = createCache();
 
