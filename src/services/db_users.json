@@ -2,11 +2,47 @@
     "users": [
         {
             "name": "mark",
-            "id": "a2c795b8-6454-41eb-b4b5-f5f24be6dd46"
+            "login": "mark23",
+            "password": "qwer1234",
+            "id": "ab105967-496c-4301-953c-811980681c8f",
+            "roles": [
+                "USER"
+            ]
         },
         {
-            "name": "Longi",
-            "id": "a2c795b8-6454-41eb-b4b5-f5f24be6dd46"
+            "name": "lora",
+            "login": "lora1234",
+            "password": "$2b$10$.O4FPfLoxdnrf8Zq/FcoRe8HwNW89U2Fm4gaUuXeZZt5mC3fblvDW",
+            "id": "9c162c36-9715-43f1-96f1-3984e0bdf219",
+            "roles": [
+                "USER",
+                "SUPERUSER",
+                "ADMIN"
+            ]
+        },
+        {
+            "name": "kon",
+            "login": "kon1234",
+            "password": "$2b$10$.O4FPfLoxdnrf8Zq/FcoRe8HwNW89U2Fm4gaUuXeZZt5mC3fblvDW",
+            "id": "ba5aa4f2-4237-492a-a3df-c33866378e7f"
+        },
+        {
+            "name": "kony",
+            "login": "kony1234",
+            "password": "$2b$10$.O4FPfLoxdnrf8Zq/FcoRe8HwNW89U2Fm4gaUuXeZZt5mC3fblvDW",
+            "roles": [
+                "USER"
+            ],
+            "id": "39fd81ff-241f-42e9-9363-da43dd74dbf6"
+        },
+        {
+            "name": "qwerty",
+            "login": "qwerty1234",
+            "password": "$2b$10$.O4FPfLoxdnrf8Zq/FcoRe8HwNW89U2Fm4gaUuXeZZt5mC3fblvDW",
+            "roles": [
+                "ADMIN"
+            ],
+            "id": "6b4fd967-9fc7-4680-a3f8-06ec4d17e715"
         }
     ]
 }

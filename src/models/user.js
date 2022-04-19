@@ -26,17 +26,32 @@ exports.fetchAllUsers = async (pageNumber, pageSize) => {
   }
 };
 
+exports.fetchUserByLogin = async (login) => {
+  const dbUsers = await readJSONAsync(dbUsersJsonPath);
+
+  return dbUsers.users.find((user) => user.login === login);
+};
+
 exports.fetchUserById = async (id) => {
   const dbUsers = await readJSONAsync(dbUsersJsonPath);
 
   return dbUsers.users.find((user) => user.id === id);
 };
 
-exports.addNewUser = async (data) => {
+exports.addNewUser = async (user) => {
   const dbUsers = await readJSONAsync(dbUsersJsonPath);
 
-  dbUsers.users.push(data);
+  const foundUser = dbUsers.users.find(
+    (existingUser) => user.login === existingUser?.login
+  );
+  if (foundUser) {
+    return false;
+  }
+
+  dbUsers.users.push(user);
   await writeJSONAsync(dbUsersJsonPath, dbUsers);
+
+  return true;
 };
 
 exports.update = async (dataOfNewUser) => {

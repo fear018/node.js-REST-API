@@ -1,10 +1,16 @@
-exports.getNotFoundResponse = (res) => {
-  res.writeHead(404);
-
+exports.errorsHandler = (res, status = 404) => {
+  res.writeHead(status);
   return {
     error: {
-      message: "Not found",
-      code: 404,
+      status,
+      message:
+        status === 400
+          ? "Login and password - required"
+          : status === 409
+          ? "User already exist"
+          : status === 401
+          ? "Unauthorized"
+          : "Not found",
     },
   };
 };

@@ -12,6 +12,9 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "@types/node": "^14.18.13",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.0",
     "find-my-way": "^5.4.0",
     "uuid": "^8.3.2"
   }

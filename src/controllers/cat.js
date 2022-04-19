@@ -1,5 +1,5 @@
 const { v4: uuid } = require("uuid");
-const { getNotFoundResponse } = require("../utils/errorsHandler");
+const { errorsHandler } = require("../utils/errorsHandler");
 const catModel = require("../models/cat");
 const userModel = require("../models/user");
 const { parseJsonBody } = require("../utils/jsonHelpers");
@@ -11,7 +11,7 @@ exports.getCats = async (res) => {
   const { cats } = await catModel.fetchAllCats();
 
   if (!cats.length) {
-    return getNotFoundResponse(res);
+    return errorsHandler(res);
   }
 
   return cats;
@@ -21,7 +21,7 @@ exports.getCatById = async (res, catId) => {
   const cat = await cache(catId, catModel.fetchCatById, res);
 
   if (!cat) {
-    return getNotFoundResponse(res);
+    return errorsHandler(res);
   }
 
   return cat;
@@ -37,7 +37,7 @@ exports.createCat = async (req, res) => {
     );
 
     if (userIndex === -1) {
-      return getNotFoundResponse(res);
+      return errorsHandler(res);
     }
   }
 
@@ -57,7 +57,7 @@ exports.updateCatById = async (req, res, catId) => {
     );
 
     if (userIndex === -1) {
-      return getNotFoundResponse(res);
+      return errorsHandler(res);
     }
   }
 
@@ -66,7 +66,7 @@ exports.updateCatById = async (req, res, catId) => {
   const updateResult = await catModel.update(updatedCat);
 
   if (!updateResult) {
-    return getNotFoundResponse(res);
+    return errorsHandler(res);
   }
 
   return updatedCat;
@@ -76,7 +76,7 @@ exports.deleteCatById = async (res, catId) => {
   const updateResult = await catModel.delete(catId);
 
   if (!updateResult) {
-    return getNotFoundResponse(res);
+    return errorsHandler(res);
   }
 
   return { id: catId };

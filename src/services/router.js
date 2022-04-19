@@ -1,6 +1,8 @@
 const router = require("find-my-way")();
 const catController = require("../controllers/cat");
 const userController = require("../controllers/user");
+const { identification, checkAuth, checkRole } = require("../services/auth");
+const { routerMiddleware } = require("../utils/middleware");
 
 // cat
 router.on("POST", "/cat", async (req, res) => {
@@ -9,11 +11,15 @@ router.on("POST", "/cat", async (req, res) => {
   res.end(JSON.stringify(result));
 });
 
-router.on("GET", "/cat", async (req, res) => {
-  const result = await catController.getCats(res);
+router.on(
+  "GET",
+  "/cat",
+  identification(async (req, res) => {
+    const result = await catController.getCats(res);
 
-  res.end(JSON.stringify(result));
-});
+    res.end(JSON.stringify(result));
+  })
+);
 
 router.on("GET", "/cat/:catId", async (req, res, params) => {
   const result = await catController.getCatById(res, params.catId);
@@ -35,16 +41,42 @@ router.on("DELETE", "/cat/:catId", async (req, res, { catId }) => {
 
 // user
 router.on("POST", "/user", async (req, res) => {
-  const result = await userController.createUser(req);
+  const result = await userController.createUser(req, res);
 
   res.end(JSON.stringify(result));
 });
 
-router.on("GET", "/user", async (req, res) => {
-  const result = await userController.getUsers(req, res);
+router.on("POST", "/user/login", async (req, res) => {
+  const result = await userController.loginUser(req, res);
 
   res.end(JSON.stringify(result));
 });
+
+router.on(
+  "PUT",
+  "/user/role",
+  routerMiddleware([
+    checkAuth,
+    checkRole("ADMIN"),
+    async (req, res) => {
+      const result = await userController.setUserRole(req, res);
+      res.end(JSON.stringify(result));
+    },
+  ])
+);
+
+router.on(
+  "GET",
+  "/user",
+  routerMiddleware([
+    checkAuth,
+    checkRole("USER"),
+    async (req, res) => {
+      const result = await userController.getUsers(req, res);
+      res.end(JSON.stringify(result));
+    },
+  ])
+);
 
 router.on("GET", "/user/:userId", async (req, res, params) => {
   const result = await userController.getUserById(res, params.userId);
